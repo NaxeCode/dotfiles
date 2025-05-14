@@ -1,7 +1,49 @@
+# ~/.config/yazi/yazi.toml
+
 [manager]
-show_hidden    = true
+show_hidden = true
+# Add any other manager settings you like here
 
 [opener]
+# Rules are processed top-to-bottom. The first matching rule is used.
 edit = [
-	{ run = "%EDITOR% %*",  block = true, for = "windows" },
+    # --- Linux ---
+    # 1. Edit files on Linux
+    { run = '${EDITOR:-nvim} %*', block = true, for = "linux", if = '[ -f "$1" ]' },
+    # 2. Open directories on Linux
+    { run = 'xdg-open %f', block = false, for = "linux", if = '[ -d "$1" ]' },
+    # 3. Fallback for other file types on Linux
+    { run = 'xdg-open %f', block = false, for = "linux" },
+
+    # --- macOS ---
+    # 4. Edit files on macOS
+    { run = '${EDITOR:-nvim} %*', block = true, for = "macos", if = '[ -f "$1" ]' },
+    # 5. Open directories on macOS
+    { run = 'open %f', block = false, for = "macos", if = '[ -d "$1" ]' },
+    # 6. Fallback for other file types on macOS
+    { run = 'open %f', block = false, for = "macos" },
+
+    # --- Windows ---
+    # 7. Edit files on Windows
+    #    - Uses %EDITOR% if set, otherwise nvim.exe. Assumes nvim.exe is in PATH.
+    #    - The 'if' condition checks if the item is a file.
+    #      'cmd /C "if not exist "%1\\" (exit 0) else (exit 1)"' checks if it's NOT a directory.
+    #      Combined with the implicit assumption that Yazi is on an existing item, this works for files.
+    #      A more robust file check: 'cmd /C "dir /a-d /b "%1" >nul 2>nul"' (exit 0 if file, non-0 otherwise)
+    { run = 'cmd /C "if defined EDITOR (call %EDITOR% %*) else (nvim.exe %*)"', block = true, for = "windows", if = 'cmd /C "dir /a-d /b \"%1\" >nul 2>nul"' },
+    # 8. Open directories on Windows
+    #    - 'explorer' is used to open directories.
+    #    - The 'if' condition checks if the item is a directory.
+    #      'cmd /C "if exist "%1\\" (exit 0) else (exit 1)"'
+    #      A more robust dir check: 'cmd /C "dir /ad /b "%1" >nul 2>nul"' (exit 0 if dir, non-0 otherwise)
+    { run = 'explorer %f', block = false, for = "windows", if = 'cmd /C "dir /ad /b \"%1\" >nul 2>nul"' },
+    # 9. Fallback for other file types on Windows (using 'start')
+    { run = 'start "" %f', block = false, for = "windows" }
 ]
+
+# You can define other opener groups if needed, e.g., 'open_with_less':
+# open_with_less = [
+#   { run = 'less %*', block = true, for = "linux" },
+#   { run = 'less %*', block = true, for = "macos" },
+#   # For Windows, you might need a 'less' equivalent or a different approach
+# ]
