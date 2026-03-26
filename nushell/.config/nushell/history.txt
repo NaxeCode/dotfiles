@@ -2,3 +2,11 @@ gemini
 exit
 gemini
 ls
+cd Development/
+ls
+claude
+gemini
+mkdir github_auto_commit
+ls
+cd github_auto_commit/
+ls
