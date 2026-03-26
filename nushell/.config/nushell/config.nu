@@ -1,4 +1,5 @@
 # ~/.config/nushell/config.nu
+let _start = (date now)
 
 # ─── Common env ────────────────────────────────────────────────────────────
 $env.OPENAI_API_KEY      = '…'
@@ -31,5 +32,10 @@ alias or  = cd ($env.GITLAB_BASE | path join "quantum.orion")
 alias ph  = cd ($env.GITLAB_BASE | path join "phoenix")
 
 # ─── Minimal Startup Info ──────────────────────────────────────────────────
-let version = $nu.version
-print $"(ansi g)Nushell v($version)(ansi reset)"
+let _ms = (((date now) - $_start) / 1ms | math round --precision 2)
+let _version = (version).version
+print $"(ansi g)Nushell v($_version)(ansi reset)  (ansi y)load: ($_ms)ms(ansi reset)"
+
+# ─── Starship Prompt ───────────────────────────────────────────────────────
+use ~/.cache/starship/init.nu
+

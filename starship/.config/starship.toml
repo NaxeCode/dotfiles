@@ -1,0 +1,33 @@
+add_newline = false
+format = "$directory$git_branch$git_status$nodejs$python$cmd_duration$line_break$character"
+
+[character]
+success_symbol = "[>](bold #a7c080) "
+error_symbol = "[>](bold #e67e80) "
+vimcmd_symbol = "[<](bold #dbbc7f) "
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold #83c092"
+
+[git_branch]
+symbol = "git:"
+style = "bold #d699b6"
+
+[git_status]
+style = "bold #dbbc7f"
+stashed = "=${count}"
+ahead = "^${count}"
+behind = "v${count}"
+diverged = "^${ahead_count}v${behind_count}"
+
+[nodejs]
+format = " [node:$version](bold #a7c080)"
+
+[python]
+format = " [py:$version](bold #7fbbb3)"
+
+[cmd_duration]
+min_time = 1000
+format = " [$duration](dimmed #859289)"
