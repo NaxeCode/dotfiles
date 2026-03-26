@@ -19,8 +19,8 @@ font-feature = -liga
 window-padding-x = 8
 window-padding-y = 8
 window-decoration = false
-window-background-opacity = 0.95
-window-background-blur-radius = 20
+background-opacity = 0.95
+background-blur = true
 
 # --- Behavior ---
 mouse-scroll-multiplier = precision:1,discrete:1
