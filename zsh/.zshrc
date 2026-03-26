@@ -106,3 +106,8 @@ export DEEPSEEK_API_KEY="sk-bc261ea7b02042bf8c6b02279c84ef9a"
 
 # OpenClaw Completion
 source "/home/naxe/.openclaw/completions/openclaw.zsh"
+
+# TMUX Aliases
+alias t="tmux"
+alias ta="tmux attach"
+alias tls="tmux ls"

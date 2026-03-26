@@ -39,3 +39,8 @@ print $"(ansi g)Nushell v($_version)(ansi reset)  (ansi y)load: ($_ms)ms(ansi re
 # ─── Starship Prompt ───────────────────────────────────────────────────────
 use ~/.cache/starship/init.nu
 
+
+# ─── TMUX Aliases ──────────────────────────────────────────────────────────
+alias t   = tmux
+alias ta  = tmux attach
+alias tls = tmux ls
