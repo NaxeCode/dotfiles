@@ -2,7 +2,10 @@
 
 # ─── Common env ────────────────────────────────────────────────────────────
 $env.OPENAI_API_KEY      = '…'
-$env.config.buffer_editor = "nvim"
+$env.config = {
+    show_banner: false, # Disable the bloated default banner
+    buffer_editor: "nvim"
+}
 
 # ─── Load platform‐specific bits ────────────────────────────────────────────
 # Note: source paths must be literal strings in Nushell
@@ -26,3 +29,7 @@ alias gg  = cd ($env.GITLAB_BASE | path join "quantumsystem" "Quantum.GameFiles"
 alias tb  = cd ($env.GITLAB_BASE | path join "quantum.toolbox")
 alias or  = cd ($env.GITLAB_BASE | path join "quantum.orion")
 alias ph  = cd ($env.GITLAB_BASE | path join "phoenix")
+
+# ─── Minimal Startup Info ──────────────────────────────────────────────────
+let version = $nu.version
+print $"(ansi g)Nushell v($version)(ansi reset)"
