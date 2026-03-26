@@ -1,20 +1,17 @@
 # ~/.config/nushell/config.nu
 
-use std/dirs
-
 # ─── Common env ────────────────────────────────────────────────────────────
 $env.OPENAI_API_KEY      = '…'
 $env.config.buffer_editor = "nvim"
 
 # ─── Load platform‐specific bits ────────────────────────────────────────────
-if $nu.platform == "windows" {
-  source ~/.config/nushell/windows.nu
-}
-elif $nu.platform == "macos" {
-  source ~/.config/nushell/macos.nu
-}
-else {
-  source ~/.config/nushell/linux.nu
+# Note: source paths must be literal strings in Nushell
+if $nu.os-info.family == "windows" {
+  source windows.nu
+} else if $nu.os-info.family == "macos" {
+  source macos.nu
+} else {
+  source linux.nu
 }
 
 # ─── Cross‐platform Aliases ──────────────────────────────────────────────────
