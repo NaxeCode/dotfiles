@@ -1,0 +1,104 @@
+@import "themes/current";
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  color: $fg;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Dashboard root ────────────────────────────────────────────────────────────
+.dashboard {
+  background-color: $bg;
+  padding: 24px;
+}
+
+// ── Clock section ─────────────────────────────────────────────────────────────
+.clock-section {
+  padding-bottom: 20px;
+  border-bottom: 1px solid $border;
+  margin-bottom: 20px;
+}
+
+.clock-time {
+  font-size: 80px;
+  font-weight: bold;
+  color: $clock-color;
+  letter-spacing: -3px;
+}
+
+.clock-date {
+  font-size: 20px;
+  color: $fg-dim;
+  margin-top: 4px;
+}
+
+// ── Module cards ─────────────────────────────────────────────────────────────
+.module-card {
+  background-color: $bg-module;
+  border-radius: 12px;
+  border: 1px solid $border;
+  padding: 20px;
+  margin: 0 8px;
+}
+
+.module-title {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: $fg-dim;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.stat-sub {
+  font-size: 13px;
+  color: $fg-dim;
+  margin-top: 6px;
+}
+
+// ── Progress bars (GTK scale) ─────────────────────────────────────────────────
+scale {
+  min-height: 10px;
+  margin: 8px 0 4px 0;
+}
+
+scale trough {
+  background-color: $bg-bar;
+  border-radius: 5px;
+  min-height: 10px;
+}
+
+scale trough highlight {
+  border-radius: 5px;
+  min-height: 10px;
+}
+
+.cpu-bar  scale trough highlight { background-color: $cpu-color;  }
+.gpu-bar  scale trough highlight { background-color: $gpu-color;  }
+.vram-bar scale trough highlight { background-color: $vram-color; }
+.ram-bar  scale trough highlight { background-color: $ram-color;  }
+
+// ── Color accents ─────────────────────────────────────────────────────────────
+.cpu-color  { color: $cpu-color;  }
+.gpu-color  { color: $gpu-color;  }
+.vram-color { color: $vram-color; }
+.ram-color  { color: $ram-color;  }
+.net-color  { color: $net-color;  }
+.disk-color { color: $disk-color; }
+
+// ── Network ───────────────────────────────────────────────────────────────────
+.net-row {
+  margin-top: 8px;
+}
+
+.net-label {
+  font-size: 14px;
+  color: $net-color;
+}

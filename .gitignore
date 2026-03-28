@@ -10,3 +10,4 @@ dunst/.config/dunst/dunstrc
 nushell/.config/nushell/history.txt
 nushell/.config/nushell/secrets.nu
 hyprpanel/.config/hyprpanel/style.css
+eww/.config/eww/themes/current.scss
