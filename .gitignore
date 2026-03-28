@@ -1,1 +1,11 @@
 .secrets.zsh
+
+# Runtime-generated files (created by switch-theme.sh / solar-schedule.sh)
+hypr/.config/hypr/theme.conf
+waybar/.config/waybar/theme.css
+wofi/.config/wofi/theme.css
+dunst/.config/dunst/dunstrc
+
+# Nushell runtime files
+nushell/.config/nushell/history.txt
+nushell/.config/nushell/secrets.nu
