@@ -3,8 +3,20 @@
 ;; ─────────────────────────────────────────────────────────────────────────────
 
 ;; Magic variables (EWW_CPU, EWW_RAM, EWW_DISK, EWW_TIME) update every 2s automatically.
+;; Note: EWW_CPU.cores[N].freq is in MHz. EWW_RAM.used_mem/total_mem are in bytes.
 
-;; AMD GPU stats — all sourced from sysfs
+;; Average CPU frequency (MHz → GHz)
+(defpoll cpu-freq
+  :interval "2s"
+  :initial "0.0"
+  `awk '{sum+=$1;c++}END{printf "%.2f",sum/c/1000000}' /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq`)
+
+(defpoll cpu-temp
+  :interval "3s"
+  :initial "0"
+  `awk '{printf "%d", $1/1000}' /sys/class/hwmon/hwmon3/temp1_input`)
+
+;; AMD GPU — sourced from sysfs
 (defpoll gpu-usage
   :interval "2s"
   :initial "0"
@@ -13,7 +25,7 @@
 (defpoll gpu-freq
   :interval "2s"
   :initial "0.0"
-  `awk '{printf "%.1f", $1/1e9}' /sys/class/hwmon/hwmon2/freq1_input`)
+  `awk '{printf "%.2f", $1/1e9}' /sys/class/hwmon/hwmon2/freq1_input`)
 
 (defpoll gpu-temp
   :interval "3s"
@@ -27,23 +39,34 @@
 
 (defpoll vram-total
   :interval "30s"
-  :initial "16.0"
-  `awk '{printf "%.1f", $1/1073741824}' /sys/class/drm/card1/device/mem_info_vram_total`)
+  :initial "24.0"
+  `awk '{printf "%.0f", $1/1073741824}' /sys/class/drm/card1/device/mem_info_vram_total`)
 
 (defpoll vram-perc
   :interval "5s"
   :initial "0"
   `awk 'NR==1{u=$1}END{"cat /sys/class/drm/card1/device/mem_info_vram_total"|getline t;printf "%d",u*100/t}' /sys/class/drm/card1/device/mem_info_vram_used`)
 
+(defpoll vram-ctrl-perc
+  :interval "2s"
+  :initial "0"
+  `cat /sys/class/drm/card1/device/mem_busy_percent`)
+
 (defpoll vram-temp
   :interval "3s"
   :initial "0"
   `awk '{printf "%d", $1/1000}' /sys/class/hwmon/hwmon2/temp3_input`)
 
-(defpoll cpu-temp
-  :interval "3s"
+;; Volume
+(defpoll volume
+  :interval "2s"
   :initial "0"
-  `awk '{printf "%d", $1/1000}' /sys/class/hwmon/hwmon3/temp1_input`)
+  `wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf "%d", $2*100}'`)
+
+(defpoll muted
+  :interval "2s"
+  :initial "false"
+  `wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo "true" || echo "false"`)
 
 ;; Network throughput — delta over 1s via /proc/net/dev (wlan0)
 (defpoll net-up
@@ -87,11 +110,11 @@
        :hexpand true
     (label :class "module-title" :text "CPU" :halign "start")
     (label :class "stat-value cpu-color"
-           :text "${EWW_CPU.avg}%"
+           :text "${round(EWW_CPU.avg, 1)}%"
            :halign "start")
     (stat-bar :value {EWW_CPU.avg} :bar-class "cpu-bar")
     (label :class "stat-sub"
-           :text "${EWW_CPU.cores[0].freq} GHz  ·  ${cpu-temp}°C"
+           :text "${cpu-freq} GHz  ·  ${cpu-temp}°C"
            :halign "start")))
 
 ;; ── GPU card ──────────────────────────────────────────────────────────────────
@@ -108,10 +131,14 @@
     (label :class "stat-sub gpu-color"
            :text "${gpu-freq} GHz  ·  ${gpu-temp}°C"
            :halign "start")
-    (label :class "stat-sub vram-color"
-           :text "VRAM  ${vram-used} / ${vram-total} GiB  ·  ${vram-temp}°C"
+    (label :class "module-title" :text "VRAM" :halign "start")
+    (label :class "stat-value vram-color"
+           :text "${vram-perc}%"
            :halign "start")
-    (stat-bar :value {vram-perc} :bar-class "vram-bar")))
+    (stat-bar :value {vram-perc} :bar-class "vram-bar")
+    (label :class "stat-sub vram-color"
+           :text "${vram-used} / ${vram-total} GiB  ·  ctrl ${vram-ctrl-perc}%  ·  ${vram-temp}°C"
+           :halign "start")))
 
 ;; ── System card ───────────────────────────────────────────────────────────────
 (defwidget system-card []
@@ -119,23 +146,27 @@
        :orientation "v"
        :space-evenly false
        :hexpand true
-    (label :class "module-title" :text "SYSTEM" :halign "start")
+    (label :class "module-title" :text "RAM" :halign "start")
     (label :class "stat-value ram-color"
-           :text "${EWW_RAM.used_mem_perc}%"
+           :text "${round(EWW_RAM.used_mem_perc, 1)}%"
            :halign "start")
     (stat-bar :value {EWW_RAM.used_mem_perc} :bar-class "ram-bar")
     (label :class "stat-sub"
-           :text "${round(EWW_RAM.used_mem / 1048576, 1)} / ${round(EWW_RAM.total_mem / 1048576, 1)} GiB RAM"
+           :text "${round(EWW_RAM.used_mem / 1073741824, 1)} / ${round(EWW_RAM.total_mem / 1073741824, 1)} GiB"
            :halign "start")
+    (label :class "module-title" :text "STORAGE" :halign "start")
     (label :class "stat-sub disk-color"
-           :text " ${round(EWW_DISK['/'].free / 1073741824, 1)} GiB free"
+           :text " ${round(EWW_DISK['/'].free / 1073741824, 0)} GiB free  /  ${round(EWW_DISK['/'].total / 1073741824, 0)} GiB"
            :halign "start")
-    (box :class "net-row"
-         :orientation "h"
-         :space-evenly false
-         :halign "start"
+    (stat-bar :value {EWW_DISK["/"].used_perc} :bar-class "disk-bar")
+    (label :class "module-title" :text "NETWORK" :halign "start")
+    (box :orientation "h" :space-evenly false :halign "start"
       (label :class "net-label" :text " ${net-up}")
-      (label :class "net-label" :text "    ${net-down}"))))
+      (label :class "net-label" :text "    ${net-down}"))
+    (label :class "module-title" :text "AUDIO" :halign "start")
+    (label :class "stat-sub"
+           :text {muted == "true" ? "󰝟 muted" : " ${volume}%"}
+           :halign "start")))
 
 
 ;; ─────────────────────────────────────────────────────────────────────────────

@@ -84,6 +84,7 @@ scale trough highlight {
 .gpu-bar  scale trough highlight { background-color: $gpu-color;  }
 .vram-bar scale trough highlight { background-color: $vram-color; }
 .ram-bar  scale trough highlight { background-color: $ram-color;  }
+.disk-bar scale trough highlight { background-color: $disk-color; }
 
 // ── Color accents ─────────────────────────────────────────────────────────────
 .cpu-color  { color: $cpu-color;  }
