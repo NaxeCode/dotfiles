@@ -1,5 +1,6 @@
 {
-  // ── Shared bar definition (shown on all outputs) ───────────────────────────
+  // ── Main bar (Dell SW + Dell AW — HyprPanel covers Wacom) ────────────────
+  "output": ["HDMI-A-2", "DP-1"],
   "layer": "top",
   "position": "top",
   "height": 36,

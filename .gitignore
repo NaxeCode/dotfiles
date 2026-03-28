@@ -9,3 +9,4 @@ dunst/.config/dunst/dunstrc
 # Nushell runtime files
 nushell/.config/nushell/history.txt
 nushell/.config/nushell/secrets.nu
+hyprpanel/.config/hyprpanel/style.css
