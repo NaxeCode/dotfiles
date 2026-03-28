@@ -28,4 +28,4 @@ copy-on-select = true
 confirm-close-surface = false
 
 # --- Default Shell ---
-command = /snap/bin/nu
+command = /usr/bin/nu

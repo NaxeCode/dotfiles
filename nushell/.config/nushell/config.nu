@@ -47,10 +47,78 @@ alias t   = tmux
 alias ta  = tmux attach
 alias tls = tmux ls
 
+# ─── Better Defaults & Migrated Aliases ─────────────────────────────────────
+if (which eza | is-not-empty) {
+    alias ll = eza -la --group-directories-first --git
+    alias la = eza -a --group-directories-first
+    alias tree = eza --tree
+}
+if (which colorls | is-not-empty) {
+    alias ls = colorls --dark --sd
+}
+alias g  = git status
+alias ga = git add
+alias gc = git commit -m
+
+if (which batcat | is-not-empty) {
+    alias cat = batcat --paging=never --style=plain
+} else if (which bat | is-not-empty) {
+    alias cat = bat --paging=never --style=plain
+}
+
+if (which rg | is-not-empty) {
+    alias grep = rg
+}
+
+if (which fd | is-not-empty) {
+    alias find = fd
+} else if (which fdfind | is-not-empty) {
+    alias find = fdfind
+    alias fd = fdfind
+}
+
+# ─── Whisper & Llama ────────────────────────────────────────────────────────
+alias whisper = /home/naxecode/whisper.cpp/start-whisper.sh
+alias llama = /home/naxecode/llama.cpp/build/bin/llama-server -m /home/naxecode/models/qwen35-27b/Qwen_Qwen3.5-27B-Q4_K_M.gguf --host 127.0.0.1 --port 8080 -ngl 999 -c 49152 --temp 0.2 --top-p 0.9
+
+# ─── Functions ──────────────────────────────────────────────────────────────
+def --env y [...args] {
+    let tmp = (mktemp -t yazi-cwd.XXXXXX)
+    yazi ...$args --cwd-file=$tmp
+    if ($tmp | path exists) {
+        let cwd = (open $tmp)
+        if $cwd != "" and $cwd != $env.PWD {
+            cd $cwd
+        }
+        rm -f $tmp
+    }
+}
+
 # ─── Minimal Startup Info ──────────────────────────────────────────────────
 let _ms = (((date now) - $_start) / 1ms | math round --precision 2)
 let _version = (version).version
 print $"(ansi g)Nushell v($_version)(ansi reset)  (ansi y)load: ($_ms)ms(ansi reset)"
 
-# ─── Starship Prompt ───────────────────────────────────────────────────────
-use ~/.cache/starship/init.nu
+# ─── External Tool Integrations ──────────────────────────────────────────────
+if ("~/.cache/starship/init.nu" | path expand | path exists) {
+    source ~/.cache/starship/init.nu
+}
+if ("~/.cache/zoxide/init.nu" | path expand | path exists) {
+    source ~/.cache/zoxide/init.nu
+}
+
+# ─── Helper: Persistent Export ──────────────────────────────────────────────
+def --env ex [name: string, value: any] {
+    let line = $"\n$env.($name) = ($value | inspect)"
+    $line | save --append $nu.config-path
+    load-env { ($name): $value }
+    print $"(ansi g)Variable ($name) is now persistent and active.(ansi reset)"
+}
+
+# ─── Quick Reload ──────────────────────────────────────────────────────────
+def rl [] {
+    print $"(ansi g)Reloading NuShell...(ansi reset)"
+    exec nu
+}
+
+$env.HSA_OVERRIDE_GFX_VERSION = '11.0.0'

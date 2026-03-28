@@ -12,3 +12,31 @@ cd github_auto_commit/
 ls
 zsh
 zsh
+claude
+chezmoi apply
+hyprctl dispatch exit
+mkdir -p ~/.cache/starship
+ls
+sudo pacman -S hyprlock
+yay -S sddm-astronaut-theme
+sudo pacman -S gwenview
+claude
+gemini
+sudo pacman -Syu
+sudo pacman -S gemini-cli
+pkill waybar
+waybar & disown
+waybar && disown
+waybar & disown
+ls
+zsh
+exit
+zsh
+exit
+ls
+gemini
+export HSA_OVERRIDE_GFX_VERSION=11.0.0
+$env.HSA_OVERRIDE_GFX_VERSION = "11.0.0"
+echo '$env.HSA_OVERRIDE_GFX_VERSION = "11.0.0"' | save --append<\n>     ~/.config/nushell/env.nu
+persist HSA_OVERRIDE_GFX_VERSION 11.0.0
+rl

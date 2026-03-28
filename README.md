@@ -1,10 +1,13 @@
-## yazi.toml: Yazi (Compatible with Windows & UNIX)
-windows, place into ~/AppData/Roaming/yazi/config/
-Unix: ~/.config/yazi/
+# LEGACY DOTFILES (ARCHIVED)
 
-## settings.json: Windows 11 Terminal
-Look it up
+⚠️ **NOTICE:** This repository is now legacy and is no longer being maintained.
 
-## config.json: NuShell
-Place in your ~\AppData\Roaming\nushell\
-Make sure to install both Startship
+All active configuration has been migrated to the [**dotfiles-chezmoi**](https://github.com/NaxeCode/dotfiles-chezmoi) repository, which is now the single source of truth for:
+- NuShell (config.nu, env.nu)
+- Starship
+- Hyprland
+- Tmux
+- Ghostty
+- Neovim (Kickstart)
+
+This repository is kept for historical reference of Windows and legacy Zsh configurations.
