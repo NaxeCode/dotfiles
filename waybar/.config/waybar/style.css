@@ -1,0 +1,190 @@
+/* ── Imports & base ───────────────────────────────────────────────────────── */
+@import "theme.css";
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+  font-size: 13px;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+/* ── Bar window ───────────────────────────────────────────────────────────── */
+window#waybar {
+  background-color: @bg_main;
+  border-bottom: 2px solid @border_color;
+  border-radius: 10px;
+  color: @fg_main;
+  transition: background-color 0.3s ease;
+}
+
+window#waybar.hidden {
+  opacity: 0.3;
+}
+
+/* ── Tooltip ──────────────────────────────────────────────────────────────── */
+tooltip {
+  background-color: @bg_main;
+  border: 1px solid @border_color;
+  border-radius: 8px;
+  color: @fg_main;
+}
+
+tooltip label {
+  color: @fg_main;
+}
+
+/* ── Shared module pill ───────────────────────────────────────────────────── */
+.modules-left,
+.modules-center,
+.modules-right {
+  margin: 3px 0;
+}
+
+#workspaces,
+#window,
+#clock,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#temperature,
+#custom-gpu,
+#custom-gpu_freq,
+#custom-mem_usage,
+#custom-vram,
+#disk,
+#tray,
+#custom-power {
+  background-color: @bg_module;
+  border-radius: 8px;
+  padding: 2px 10px;
+  margin: 2px 3px;
+  color: @fg_main;
+}
+
+/* ── Workspaces ───────────────────────────────────────────────────────────── */
+#workspaces {
+  padding: 2px 6px;
+}
+
+#workspaces button {
+  background: transparent;
+  color: @fg_dim;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin: 0 2px;
+  min-width: 20px;
+  transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+  background-color: rgba(127, 187, 179, 0.15);
+  color: @blue;
+}
+
+#workspaces button.active {
+  background-color: rgba(127, 187, 179, 0.25);
+  color: @blue;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  background-color: rgba(230, 126, 128, 0.3);
+  color: @red;
+}
+
+/* ── Window title ─────────────────────────────────────────────────────────── */
+#window {
+  color: @fg_dim;
+  font-style: italic;
+}
+
+/* ── Clock ────────────────────────────────────────────────────────────────── */
+#clock {
+  color: @blue;
+  font-weight: bold;
+}
+
+/* ── Audio ────────────────────────────────────────────────────────────────── */
+#pulseaudio {
+  color: @green;
+}
+
+#pulseaudio.muted {
+  color: @fg_dim;
+}
+
+/* ── Network ──────────────────────────────────────────────────────────────── */
+#network {
+  color: @aqua;
+}
+
+#network.disconnected {
+  color: @red;
+}
+
+/* ── CPU Stats (Grouped) ──────────────────────────────────────────────────── */
+#cpu,
+#cpu.freq,
+#temperature {
+  color: @purple;
+}
+
+/* ── GPU Core Stats ───────────────────────────────────────────────────────── */
+#custom-gpu,
+#custom-gpu_freq,
+#temperature.gpu {
+  color: @red;
+}
+
+/* ── GPU VRAM Stats ───────────────────────────────────────────────────────── */
+#custom-mem_usage,
+#custom-vram,
+#temperature.gpu_vram {
+  color: @orange;
+}
+
+/* ── Memory ───────────────────────────────────────────────────────────────── */
+#memory {
+  color: @yellow;
+}
+
+#temperature.critical {
+  color: @red;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  to { color: @bg_main; background-color: @red; }
+}
+
+/* ── Disk ─────────────────────────────────────────────────────────────────── */
+#disk {
+  color: @orange;
+}
+
+/* ── Tray ─────────────────────────────────────────────────────────────────── */
+#tray {
+  padding: 2px 8px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: rgba(230, 126, 128, 0.2);
+}
+
+/* ── Power button ─────────────────────────────────────────────────────────── */
+#custom-power {
+  color: @red;
+  font-size: 15px;
+  padding: 2px 12px;
+}
+
+#custom-power:hover {
+  background-color: rgba(230, 126, 128, 0.2);
+}

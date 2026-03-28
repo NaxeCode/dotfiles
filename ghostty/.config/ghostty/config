@@ -1,13 +1,8 @@
 # ~/.config/ghostty/config
 
 # --- Theme & Colors ---
-theme = Everforest Dark Hard
-
-# Matching TMUX Everforest Hard palette
-background = #272e33
-foreground = #d3c6aa
-selection-background = #3d484d
-selection-foreground = #fff9e8
+# active-theme = dark
+config-file = ~/.config/ghostty/theme.conf
 
 # --- Text & Font ---
 font-family = JetBrainsMono Nerd Font Mono

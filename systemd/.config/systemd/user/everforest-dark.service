@@ -1,0 +1,6 @@
+[Unit]
+Description=Switch to Everforest Dark Theme
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/switch-theme.sh dark

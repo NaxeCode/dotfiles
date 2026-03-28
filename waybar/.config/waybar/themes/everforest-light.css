@@ -1,0 +1,13 @@
+/* Everforest Light (Medium) - Waybar Palette */
+@define-color bg_main rgba(243, 234, 211, 0.9);
+@define-color bg_module rgba(229, 223, 197, 0.95);
+@define-color fg_main #5c6a72;
+@define-color fg_dim #829181;
+@define-color red #f85552;
+@define-color green #8da101;
+@define-color yellow #dfa000;
+@define-color blue #3a94c5;
+@define-color purple #df69ba;
+@define-color aqua #35a77c;
+@define-color orange #f57d26;
+@define-color border_color rgba(58, 148, 197, 0.3);

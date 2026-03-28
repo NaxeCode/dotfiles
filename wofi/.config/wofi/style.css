@@ -1,0 +1,78 @@
+@import url("file:///home/naxecode/.config/wofi/theme.css");
+
+/* ── Base Window ───────────────────────────────────────────────────────────── */
+window {
+    margin: 0px;
+    background-color: transparent;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 14px;
+}
+
+/* ── Main Container (Opaque Everforest Layer) ─────────────────────────────── */
+#outer-box {
+    margin: 0px;
+    padding: 8px;
+    border: 1px solid @border;
+    border-radius: 12px;
+    background-color: @bg;
+    box-shadow: 0 8px 24px @shadow;
+}
+
+/* ── Input Bar ─────────────────────────────────────────────────────────────── */
+#input {
+    margin: 4px 4px 8px 4px;
+    padding: 10px 14px;
+    border: 1px solid @border;
+    border-radius: 8px;
+    color: @fg;
+    background-color: @bg_alt;
+    caret-color: @accent;
+    outline: none;
+}
+
+#input:focus {
+    border-color: @accent;
+    outline: none;
+}
+
+/* ── Inner Box / Scroll ────────────────────────────────────────────────────── */
+#inner-box {
+    margin: 0px;
+    border: none;
+    background-color: transparent;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+    background-color: transparent;
+}
+
+/* ── List Entries ──────────────────────────────────────────────────────────── */
+#entry {
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 1px 4px;
+    background-color: transparent;
+}
+
+#entry:selected {
+    background-color: @selection;
+}
+
+/* ── Text ──────────────────────────────────────────────────────────────────── */
+#text {
+    margin: 0px 4px;
+    border: none;
+    color: @fg;
+}
+
+#text:selected {
+    color: @accent;
+    font-weight: bold;
+}
+
+/* ── Icons ─────────────────────────────────────────────────────────────────── */
+#img {
+    margin-right: 8px;
+}

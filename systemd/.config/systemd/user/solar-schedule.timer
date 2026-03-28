@@ -1,0 +1,10 @@
+[Unit]
+Description=Run solar theme scheduler at boot and midnight
+
+[Timer]
+OnBootSec=30s
+OnCalendar=*-*-* 00:00:30
+Persistent=false
+
+[Install]
+WantedBy=timers.target
